@@ -1,0 +1,151 @@
+import re
+from data.timings import fetch_time
+
+mon = [
+    "A1",
+    "L1",
+    "F1",
+    "L2",
+    "D1",
+    "L3",
+    "TB1",
+    "L4",
+    "TG1",
+    "L5",
+    "L6",
+    "A2",
+    "L31",
+    "F2",
+    "L32",
+    "D2",
+    "L33",
+    "TB2",
+    "L34",
+    "TG2",
+    "L35",
+    "V3",
+    "L36",
+]
+tue = [
+    "B1",
+    "L7",
+    "G1",
+    "L8",
+    '"E1',
+    "L9",
+    "TC1",
+    "L10",
+    "TAA1",
+    "L11",
+    "L12",
+    "B2",
+    "L37",
+    "G2",
+    "L38",
+    '"E2',
+    "L39",
+    "TC2",
+    "L40",
+    "TAA2",
+    "L41",
+    "V4",
+    "L42",
+]
+wed = [
+    "C1",
+    "L13",
+    "A1",
+    "L14",
+    "F1",
+    "L15",
+    "V1",
+    "L16",
+    "V2",
+    "C2",
+    "L43",
+    "A2",
+    "L44",
+    "F2",
+    "L45",
+    "TD2",
+    "L46",
+    "TBB2",
+    "L47",
+    "V5",
+    "L48",
+    "L17",
+    "L18",
+]
+thu = [
+    "D1",
+    "L19",
+    "B1",
+    "L20",
+    "G1",
+    "L21",
+    'T"E1',
+    "L22",
+    "TCC1",
+    "L23",
+    "L24",
+    "D2",
+    "L49",
+    "B2",
+    "L50",
+    "G2",
+    "L51",
+    'T"E2',
+    "L52",
+    "TCC2",
+    "L53",
+    "V6",
+    "L54",
+]
+fri = [
+    '"E1',
+    "L25",
+    "C1",
+    "L26",
+    "TA1",
+    "L27",
+    "TF1",
+    "L28",
+    "TD1",
+    "L29",
+    "L30",
+    '"E2',
+    "L55",
+    "C2",
+    "L56",
+    "TA2",
+    "L57",
+    "TF2",
+    "L58",
+    "TDD2",
+    "L59",
+    "V7",
+    "L60",
+]
+
+
+def fetch_info(text):
+    data, slots = [], []
+    slots += re.findall(
+        r"[A-Z]{1,3}[0-9]{1,2}[\D]{1}[A-Z]{3}[0-9]{4}[\D]{1}[A-Z]{2,3}[\D]{1}[A-Z]{2,4}[0-9]{2,4}[A-Z]{0,1}[\D]{1}[A-Z]{3}",
+        text,
+    )
+    for single_slot in slots:
+        slot = re.findall(r"[A-Z]{1,3}[0-9]{1,2}\b", single_slot)[0]
+        course_name = re.findall(r"[A-Z]{3}[0-9]{4}\b", single_slot)[0]
+        course_code = re.findall(r"[ETH,SS,ELA,LO]{2,3}\b", single_slot)
+        course_type = "Lab" if course_code[0] in ("ELA", "LO") else "Theory"
+        venue = re.findall(r"[A-Z]{2,4}[0-9]{2,4}[A-Z]{0,1}\b", single_slot)[1]
+        slot_data = {
+            "Parsed_Data": single_slot,
+            "Slot": slot,
+            "Course_Name": course_name,
+            "Course_type": course_type,
+            "Venue": venue,
+        }
+        data.append(slot_data)
+    return {"Slots": data}
