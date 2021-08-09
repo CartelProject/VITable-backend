@@ -1,134 +1,156 @@
 import re
-from data.timings import fetch_time
+from datetime import datetime, timedelta
 
-mon = [
-    "A1",
-    "L1",
-    "F1",
-    "L2",
-    "D1",
-    "L3",
-    "TB1",
-    "L4",
-    "TG1",
-    "L5",
-    "L6",
-    "A2",
-    "L31",
-    "F2",
-    "L32",
-    "D2",
-    "L33",
-    "TB2",
-    "L34",
-    "TG2",
-    "L35",
-    "V3",
-    "L36",
-]
-tue = [
-    "B1",
-    "L7",
-    "G1",
-    "L8",
-    '"E1',
-    "L9",
-    "TC1",
-    "L10",
-    "TAA1",
-    "L11",
-    "L12",
-    "B2",
-    "L37",
-    "G2",
-    "L38",
-    '"E2',
-    "L39",
-    "TC2",
-    "L40",
-    "TAA2",
-    "L41",
-    "V4",
-    "L42",
-]
-wed = [
-    "C1",
-    "L13",
-    "A1",
-    "L14",
-    "F1",
-    "L15",
-    "V1",
-    "L16",
-    "V2",
-    "C2",
-    "L43",
-    "A2",
-    "L44",
-    "F2",
-    "L45",
-    "TD2",
-    "L46",
-    "TBB2",
-    "L47",
-    "V5",
-    "L48",
-    "L17",
-    "L18",
-]
-thu = [
-    "D1",
-    "L19",
-    "B1",
-    "L20",
-    "G1",
-    "L21",
-    'T"E1',
-    "L22",
-    "TCC1",
-    "L23",
-    "L24",
-    "D2",
-    "L49",
-    "B2",
-    "L50",
-    "G2",
-    "L51",
-    'T"E2',
-    "L52",
-    "TCC2",
-    "L53",
-    "V6",
-    "L54",
-]
-fri = [
-    '"E1',
-    "L25",
-    "C1",
-    "L26",
-    "TA1",
-    "L27",
-    "TF1",
-    "L28",
-    "TD1",
-    "L29",
-    "L30",
-    '"E2',
-    "L55",
-    "C2",
-    "L56",
-    "TA2",
-    "L57",
-    "TF2",
-    "L58",
-    "TDD2",
-    "L59",
-    "V7",
-    "L60",
-]
+week_days = { "MON" : {
+    "A1": "08:00",
+    "L1": "08:00",
+    "L2": "08:50",
+    "F1": "09:00",
+    "D1": "10:00",
+    "L3": "09:50",
+    "L4": "10:40",
+    "TB1": "11:00",
+    "TG1": "12:00",
+    "L5": "11:40",
+    "L6": "12:30",
+    "A2": "14:00",
+    "L31": "14:00",
+    "L32": "14:50",
+    "F2": "15:00",
+    "D2": "16:00",
+    "L33": "15:50",
+    "L34": "16:40",
+    "TB2": "17:00",
+    "TG2": "18:00",
+    "L35": "17:40",
+    "L36": "18:30",
+    "V3": "19:00",
+},
+
+"TUE" : {
+    "B1": "08:00",
+    "L7": "08:00",
+    "L8": "08:50",
+    "G1": "09:00",
+    "E1": "10:00",
+    "L9": "09:50",
+    "L10": "10:40",
+    "TC1": "11:00",
+    "TAA1": "12:00",
+    "L11": "11:40",
+    "L12": "12:30",
+    "B2": "14:00",
+    "L37": "14:00",
+    "L38": "14:50",
+    "G2": "15:00",
+    "E2": "16:00",
+    "L39": "15:50",
+    "L40": "16:40",
+    "TC2": "17:00",
+    "TAA2": "18:00",
+    "L41": "17:40",
+    "L42": "18:30",
+    "V4": "19:00",
+},
+
+"WED" : {
+    "C1": "08:00",
+    "L13": "08:00",
+    "L14": "08:50",
+    "A1": "09:00",
+    "F1": "10:00",
+    "L15": "09:50",
+    "L16": "10:40",
+    "V1": "11:00",
+    "V2": "12:00",
+    "L17": "11:40",
+    "L18": "12:30",
+    "C2": "14:00",
+    "L43": "14:00",
+    "L44": "15:00",
+    "A2": "15:00",
+    "F2": "16:00",
+    "L45": "15:50",
+    "L46": "16:40",
+    "TD2": "17:00",
+    "TBB2": "18:00",
+    "L47": "17:40",
+    "L48": "18:30",
+    "V5": "19:00",
+},
+
+"THU" : {
+    "D1": "08:00",
+    "L19": "08:00",
+    "L20": "08:50",
+    "B1": "09:00",
+    "G1": "10:00",
+    "L21": "09:50",
+    "L22": "10:40",
+    "TE1": "11:00",
+    "TCC1": "12:00",
+    "L23": "11:40",
+    "L24": "12:30",
+    "D2": "14:00",
+    "L49": "14:00",
+    "L50": "14:50",
+    "B2": "15:00",
+    "G2": "16:00",
+    "L51": "15:50",
+    "L52": "16:40",
+    "TE2": "17:00",
+    "TCC2": "18:00",
+    "L53": "17:40",
+    "L54": "18:30",
+    "V6": "19:00",
+},
+
+"FRI" : {
+    "E1": "08:00",
+    "L25": "08:00",
+    "C1": "09:00",
+    "TA1": "10:00",
+    "L27": "09:50",
+    "L28": "10:40",
+    "TF1": "11:00",
+    "TD1": "12:00",
+    "L29": "11:40",
+    "L30": "12:30",
+    "E2": "14:00",
+    "L55": "14:00",
+    "L56": "14:50",
+    "C2": "15:00",
+    "TA2": "16:00",
+    "L57": "15:50",
+    "L58": "16:40",
+    "TF2": "17:00",
+    "TDD2": "18:00",
+    "L59": "17:40",
+    "L60": "18:30",
+    "V7": "19:00",
+}
+}
+n =50 #define slot time interval
+
+
+time_format_str = "%H:%M" # define format
+
+def format_time(slot_time):
+    """Function to convert time to Date time from string"""
+    if len(slot_time) >= 5:
+        return datetime.time(hour=int(slot_time[0:2]), minute=int(slot_time[3:5]))
+
+def fetch_time(slot):
+    """Function that returns timing of class"""
+    for day, slots in week_days.items():
+        for key_slot,timing in slots.items():
+            if key_slot == slot:
+                return timing,day
+    return None
 
 
 def fetch_info(text):
+    """Get slot data"""
     data, slots = [], []
     slots += re.findall(
         r"[A-Z]{1,3}[0-9]{1,2}[\D]{1}[A-Z]{3}[0-9]{4}[\D]{1}[A-Z]{2,3}[\D]{1}[A-Z]{2,4}[0-9]{2,4}[A-Z]{0,1}[\D]{1}[A-Z]{3}",
@@ -140,12 +162,22 @@ def fetch_info(text):
         course_code = re.findall(r"[ETH,SS,ELA,LO]{2,3}\b", single_slot)
         course_type = "Lab" if course_code[0] in ("ELA", "LO") else "Theory"
         venue = re.findall(r"[A-Z]{2,4}[0-9]{2,4}[A-Z]{0,1}\b", single_slot)[1]
+        resp = fetch_time(slot)
+        startTime = resp[0]
+        slot_day = resp[1]
+        add_mins = datetime.strptime(startTime, time_format_str)
+        endTime = add_mins + timedelta(minutes=n)
+
+        endTime = endTime.strftime('%H:%M')
+
         slot_data = {
-            "Parsed_Data": single_slot,
             "Slot": slot,
             "Course_Name": course_name,
             "Course_type": course_type,
             "Venue": venue,
+            "Day": slot_day,
+            "StartTime": startTime,
+            "EndTime": endTime,
         }
         data.append(slot_data)
     return {"Slots": data}
