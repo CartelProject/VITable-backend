@@ -130,8 +130,16 @@ week_days = { "MON" : {
     "V7": "19:00",
 }
 }
-n =50 #define slot time interval
 
+n = 50 #define slot time interval
+
+already = {
+    "MON": {},
+    "TUE": {},
+    "WED": {},
+    "THU": {},
+    "FRI": {}
+}
 
 time_format_str = "%H:%M" # define format
 
@@ -142,10 +150,12 @@ def format_time(slot_time):
 
 def fetch_time(slot):
     """Function that returns timing of class"""
-    for day, slots in week_days.items():
-        for key_slot,timing in slots.items():
-            if key_slot == slot:
-                return timing,day
+    for days in week_days.keys():
+        for slots, timings in week_days[days].items():
+            if slot == slots:
+                if slots not in already[days]:
+                    already[days][slots] = timings
+                    return timings, days
     return None
 
 
