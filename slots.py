@@ -2737,12 +2737,12 @@ def fetch_info(text):
     """Get slot data"""
     data, slots = [], []
     slots += re.findall(
-        r"[A-Z]{1,3}[0-9]{1,2}[\D]{1}[A-Z]{3}[0-9]{4}[\D]{1}[A-Z]{2,3}[\D]{1}[A-Z]{2,4}[0-9]{2,4}[A-Z]{0,1}[\D]{1}[A-Z]{3}",
+        r"[A-Z]{1,3}[0-9]{1,2}[\D]{1}[A-Z]{3,4}[0-9]{1,4}[A-Z]{0,1}[\D]{1}[A-Z]{2,3}[\D]{1}[A-Z]{2,4}[0-9]{2,4}[A-Z]{0,1}[\D]{1}[A-Z]{3}",
         text,
     )
     for single_slot in slots:
         slot = re.findall(r"[A-Z]{1,3}[0-9]{1,2}\b", single_slot)[0]
-        course_name = re.findall(r"[A-Z]{3}[0-9]{4}\b", single_slot)[0]
+        course_name = re.findall(r"[A-Z]{3,4}[0-9]{1,4}[A-Z]{0,1}\b", single_slot)[0]
         course_fullname = courseDict[course_name]
         course_code = re.findall(r"[ETH,SS,ELA,LO]{2,3}\b", single_slot)
         course_type = "Lab" if course_code[0] in ("ELA", "LO") else "Theory"
