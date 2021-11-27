@@ -13,6 +13,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 def clear():
     slots.already = {
         "MON": {},
@@ -22,10 +23,12 @@ def clear():
         "FRI": {}
     }
 
+
 @app.get("/")
 async def testing():
     """Check if server is working"""
     return "Ok! Working!"
+
 
 @app.post("/fetch/")
 async def get_timetable(request: str = Form(...)):
