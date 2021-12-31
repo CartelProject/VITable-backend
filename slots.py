@@ -1,13 +1,41 @@
 import re
 from datetime import datetime, timedelta
 import json
+import pandas as pd
+import json
+import glob
 
-with open(r"Seniors\Seniors.json") as seniorCourses:
-    seniors = json.load(seniorCourses)
-with open(r"Juniors\Juniors.json") as juniorCourses:
-    juniors = json.load(juniorCourses)
 
-courseDict = seniors | juniors
+def makeJson():
+    file_list = glob.glob(r"Slot_Datas\*.xlsx")
+    files = []
+    for file in file_list:
+        files.append(pd.read_excel(file))
+
+    dicts = []
+    for i in files:
+        try:
+            dicts.append(dict(zip(i.CourseCode, i.CourseTitle)))
+        except Exception as e:
+            print(e)
+            print("Please use an excel file that's in proper format.")
+
+    final_dict = {}
+    for i in dicts:
+        final_dict |= i
+
+    with open("Slot_Datas\Slots.json", "w") as f:
+        json.dump(final_dict, f)
+
+
+try:
+    with open(r"Slot_Datas\Slots.json") as Courses:
+        courseDict = json.load(Courses)
+except FileNotFoundError:
+    makeJson()
+    with open(r"Slot_Datas\Slots.json") as Courses:
+        courseDict = json.load(Courses)
+
 
 week_days = {
     "MON": {
@@ -136,11 +164,11 @@ week_days = {
     },
 }
 
-n = 50  # define slot time interval
+n = 50
 
 already = {"MON": {}, "TUE": {}, "WED": {}, "THU": {}, "FRI": {}}
 
-time_format_str = "%H:%M"  # define format
+time_format_str = "%H:%M"
 
 
 def format_time(slot_time):
@@ -169,8 +197,7 @@ def fetch_info(text):
     )
     for single_slot in slots:
         slot = re.findall(r"[A-Z]{1,3}[0-9]{1,2}\b", single_slot)[0]
-        course_name = re.findall(
-            r"[A-Z]{3,4}[0-9]{1,4}[A-Z]{0,1}\b", single_slot)[0]
+        course_name = re.findall(r"[A-Z]{3,4}[0-9]{1,4}[A-Z]{0,1}\b", single_slot)[0]
         course_fullname = courseDict[course_name]
         course_code = re.findall(r"[ETH,SS,ELA,LO]{2,3}\b", single_slot)
         course_type = "Lab" if course_code[0] in ("ELA", "LO") else "Theory"

@@ -15,13 +15,7 @@ app.add_middleware(
 
 
 def clear():
-    slots.already = {
-        "MON": {},
-        "TUE": {},
-        "WED": {},
-        "THU": {},
-        "FRI": {}
-    }
+    slots.already = {"MON": {}, "TUE": {}, "WED": {}, "THU": {}, "FRI": {}}
 
 
 @app.get("/")
@@ -35,6 +29,7 @@ async def get_timetable(request: str = Form(...)):
     data = slots.fetch_info(request)
     clear()
     return data
+
 
 if __name__ == "__main__":
     uvicorn.run(app)
