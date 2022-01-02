@@ -749,7 +749,7 @@ courseDict = {
     "CSI1007": "Software Engineering Principles",
     "CSI2002": "Data Structures and Algorithm Analysis",
     "CSI2003": "Advanced Algorithms",
-    "CSi2004": "Advanced Database Management Systems",
+    "CSI2004": "Advanced Database Management Systems",
     "CSI2005": "Principles of Compiler Design",
     "CSI2006": "Microprocessor and Interfacing Techniques",
     "CSI2007": "Data Communication and Networks",
