@@ -24,7 +24,7 @@ def makeJson():
     for i in dicts:
         final_dict |= i
 
-    with open("Slot_Datas\Slots.json", "w") as f:
+    with open("Slot_Datas\Slots.json", "w+") as f:
         json.dump(final_dict, f)
 
 
