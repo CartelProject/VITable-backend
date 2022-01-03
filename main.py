@@ -13,23 +13,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 def clear():
-    slots.already = {"MON": {}, "TUE": {}, "WED": {}, "THU": {}, "FRI": {}}
-
+    slots.already = {
+        "MON": {},
+        "TUE": {},
+        "WED": {},
+        "THU": {},
+        "FRI": {}
+    }
 
 @app.get("/")
 async def testing():
     """Check if server is working"""
     return "Ok! Working!"
 
-
 @app.post("/fetch/")
 async def get_timetable(request: str = Form(...)):
     data = slots.fetch_info(request)
     clear()
     return data
-
 
 if __name__ == "__main__":
     uvicorn.run(app)
