@@ -2585,7 +2585,7 @@ courseDict = {
     "BPHY101P": "Engineering Physics Lab",
     "BECE101N": "Introduction to Engineering",
     "BITE101N": "Introduction to Engineering",
-    "BMAT100L": "Mathematics",
+    "BMAT100L": "Mathematics"
 }
 
 week_days = {
@@ -2612,7 +2612,7 @@ week_days = {
         "TG2": "18:00",
         "L35": "17:40",
         "L36": "18:30",
-        "V3": "19:00",
+        "V3": "19:00"
     },
     "TUE": {
         "B1": "08:00",
@@ -2637,7 +2637,7 @@ week_days = {
         "TAA2": "18:00",
         "L41": "17:40",
         "L42": "18:30",
-        "V4": "19:00",
+        "V4": "19:00"
     },
     "WED": {
         "C1": "08:00",
@@ -2662,7 +2662,7 @@ week_days = {
         "TBB2": "18:00",
         "L47": "17:40",
         "L48": "18:30",
-        "V5": "19:00",
+        "V5": "19:00"
     },
     "THU": {
         "D1": "08:00",
@@ -2687,7 +2687,7 @@ week_days = {
         "TCC2": "18:00",
         "L53": "17:40",
         "L54": "18:30",
-        "V6": "19:00",
+        "V6": "19:00"
     },
     "FRI": {
         "E1": "08:00",
@@ -2711,8 +2711,8 @@ week_days = {
         "TDD2": "18:00",
         "L59": "17:40",
         "L60": "18:30",
-        "V7": "19:00",
-    },
+        "V7": "19:00"
+    }
 }
 
 n = 50  # define slot time interval
