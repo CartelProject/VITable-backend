@@ -2591,7 +2591,7 @@ courseDict = {
     "BCSE103E": "Computer Programming: Java",
     "BMAT102L": "Differential Equations and Transforms",
     "BSTS201P": "Qualitative Skills Practice I",
-    "BSTS202P": "Qualitative Skills Practice II,
+    "BSTS202P": "Qualitative Skills Practice II",
     "BMAT201L": "Complex Variables and Linear Algebra",
     "BMAT202L": "Probability and Statistics",
     "BMAT202P": "Probability and Statistics Lab",
